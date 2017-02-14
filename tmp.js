@@ -9,19 +9,25 @@
 // has the value blue, it should change it to red, and 
 // vice-versa.
 
-var flipColor = function(inputObj) {
-    if(inputObj.color === 'red') {
-        inputObj.color = 'blue'
-    }
-    else {
-        inputObj.color = 'red'
-    }
-    return inputObj
+// see test.js for example usage
+
+var tile2 = {
+    color: 'blue'
 }
 
 
-// see test.js for example usage
+var flipColor = function(tileObj) {
+    if(tileObj['color'] === 'blue') {
+       tileObj['color'] = 'red'
+       return tileObj
+       }
+    else if(tileObj['color'] === 'red') {
+        tileObj['color'] = 'blue'
+        return tileObj['color']
+    }
+}
 
+console.log(flipColor(tile2))
 
 // Part 1
 
@@ -31,16 +37,26 @@ var flipColor = function(inputObj) {
 
 // see test.js for example usage
 
-var getFullNames = function(inputArr) {
-    var fullNamesArr =[]
-    for(var i = 0; i < inputArr.length; i++) {
-        var firstName = inputArr[i].first
-        var lastName = inputArr[i].last
-        var fullName = firstName + ' ' + lastName
-        fullNamesArr.push(fullName)
+var customers = [
+    {
+        firstName: 'Sara',
+        lastName: 'Buvioe'
+    },
+    {
+        firstName: 'Bruce',
+        lastName: 'Wayne'
     }
-    return fullNamesArr
+]
+
+
+var getFullNames = function(customerObj) {
+    var res = customerObj['firstName']+ ' '+customerObj['lastName']
+    return res.split()
+
+    
 }
+var customer = customers[1]
+console.log(getFullNames(customer))
 
 // Part 2
 
@@ -49,24 +65,6 @@ var getFullNames = function(inputArr) {
 // (which is, almost, what this is) should take a name input, and the dog should receive the 
 // assigned name.
 
-var generateDog = function(input){
-    var newObject = {
-        legs: 4,
-        name: input,
-        speak: function(input){
-            input = input.replace(0, "r")
-            for (var i = 0; i< input.length; i ++) {
-                if (input[i] === " ") {
-                input = input.replace(input[(i + 1)], "r")
-                } 
-            } 
-            input = input.replace(input[0],"r")
-            return input
-        }
-    }
-   return newObject
-}
-
 // Give the dog a method called .speak(). speak() should receive a string as input and 
 // return a new version of that string where the first letter of every word is replaced 
 // with the letter 'r'.
@@ -74,6 +72,39 @@ var generateDog = function(input){
 
 // see test.js for example usage
 
+
+var dogObj = {
+   name: 'bob',
+   legs: '4',
+   weight: '80 pounds',
+   color: 'brown'
+}            
+
+
+var letterOne = function(array) {
+    var One = array[0]
+    One ='r'
+    return One
+}
+
+
+var speak = function(str) {
+    var arrayS = str.split(' ')
+    for(var i=0; i<arrayS.length; i++) {
+        return letterOne(arrayS[i])+arrayS[i].slice(1)
+    }
+}
+
+
+var generateDog = function(inputName) {
+    if(inputName === dogObj['name']) {
+       return dogObj['color'] + ' ' + dogObj['legs']
+   }       
+}
+
+
+console.log(generateDog('bob'))
+console.log(speak('wuaf wuaf wuaf'))
 
 // Part 3
 
@@ -85,15 +116,6 @@ var generateDog = function(input){
 
 // see test.js for example usage
 
-var pluck = function(array, key){
-    var newObject = []
-        for(var i = 0; i < array.length; i++){
-       var nameObject = array[i]
-             newObject.push(nameObject[key])   
-        }
-  return newObject
-}
-
 // Part 4
 
 // Write a function called getCounts that takes a string of text as input and returns
@@ -101,33 +123,31 @@ var pluck = function(array, key){
 
 // Note that your counts should NOT be case-sensitive.
 
-var lowerCaseAll = function(string) {
-    var splitString = string.split(' ')
-    for(var i = 0; i < splitString.length; i++) {
-        splitString[i] = splitString[i].charAt(0).toLowerCase() + splitString[i].substring(1)
-        var allLower = splitString.join(' ')
-    }
-    return allLower
-}
-
-var getCounts = function(inputText) {
-    var countObj = {}
-    var lowerTextString = lowerCaseAll(inputText)
-    var lowerTextArray = lowerTextString.split(' ')
-    // log(lowerTextArray)
-    for(var i = 0; i < lowerTextArray.length; i++) {
-        if(countObj[lowerTextArray[i]] === undefined) {
-            countObj[lowerTextArray[i]] = 1
-        }
-        else {
-            countObj[lowerTextArray[i]] = countObj[lowerTextArray[i]] + 1
-        }
-    }
-    return countObj
-}
-
 
 // check test.js for examples of how this function should be used.
+
+
+var getCounts = function(str) {
+
+    var strArray = str.split(/\W+/)
+    var strArray = str.toLowerCase()
+
+    
+    var obj = {}
+    for(var i=0; i<strArray.length; i++){
+      if(!obj[strArray[i]]){  
+          obj[strArray[i]] = 1
+      }
+        else{
+            obj[strArray[i]] += 1
+            }
+    }
+    return obj
+    
+}
+    
+console.log(getCounts('day sun day car day'))
+
 
 // ADVENTURE MODE ( 5 - 8 )
 
@@ -140,25 +160,36 @@ var getCounts = function(inputText) {
 // and it should output a new object where the keys and values are reversed.
 
 
-// var object = {
-//     occupants: 4,
-//     apartment_no: "2b",
-//     structural_integrity: "failing"
-// }
+var object = {
+     occupants: 4,
+     apartment_no: "2b",
+     structural_integrity: "failing"
+ }
 // reverseObject(object) should yield: 
 // {
 //   4: 'occupants',
 //   2b: 'apartment_no',
 //   failing: 'structural_integrity'
 // }
+ var reverseObject = function(object) {
+     var newObject = {}
+      for(var key in object) {
+          newObject[object[key]] = key
+      }
+     return newObject
+ }
+ 
+ 
+console.log(reverseObject(object))
 
-var reverseObject = function(inputObj) {
-    var reversedObj = {}
-    for(var key in inputObj) {
-        reversedObj[inputObj[key]] = key
-    }
-    return reversedObj
-}
+
+var testobject = [{
+     occupants: 4,
+     apartment_no: "2b",
+     structural_integrity: "failing"
+ }
+]
+
 
 // Part 6
 
@@ -169,18 +200,18 @@ var reverseObject = function(inputObj) {
 var users = [{obama: 'president@gmail.com',hobby: 'basketball'},{trump: 'americamoneywin@yahoo.com', hobby:'dealmaking'},{bush: 'jeb!@hotmail.com',hobby:'portraiture'}]
 // should yield: [{'president@gmail.com': 'obama',basketball: 'hobby'}, ....]
 
-var reverseAll = function(inputArray) {
-    var flippedArray = []
-    for(var i = 0; i < inputArray.length; i++) {
-        var reversedObj = {}
-        var object = inputArray[i]
-        for(var key in object) {
-            reversedObj[object[key]] = key
-        }
-        flippedArray.push(reversedObj)
+
+var reverseAll = function(arrayObj) {
+    var newObjects = []
+    for (var i = 0; i<arrayObj.length; i++){
+        newObjects.push(reverseObject(arrayObj[i]))
     }
-    return flippedArray
+   return newObjects
 }
+
+console.log(reverseAll(testobject))
+
+
 
 // Part 7
 
